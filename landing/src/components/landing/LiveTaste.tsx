@@ -25,7 +25,7 @@ export async function LiveTaste() {
       <p className="mt-2 text-[15px] text-haze text-pretty">
         Someone in New York who loves <span className="text-white">{data.favs.map((f) => f.name).join(" and ")}</span> might enjoy:
       </p>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {data.picks.map((p) => (
           <div key={p.label} className="rounded-2xl border border-white/8 bg-night/40 p-3">
             <p className="flex items-center gap-2 text-xs font-semibold text-ember">
