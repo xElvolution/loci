@@ -26,7 +26,7 @@ async function expectNoOverflow(page: Page) {
     const W = window.innerWidth;
     const out: string[] = [];
     for (const el of Array.from(document.querySelectorAll("body *"))) {
-      if (el.closest("svg, [aria-hidden='true'], [data-testid='pricing-track']")) continue;
+      if (el.closest("svg, [aria-hidden='true'], [data-testid='pricing-track'], [data-testid='deck-stage']")) continue;
       let a = el.parentElement, scroller = false;
       while (a) { if (/(auto|scroll)/.test(getComputedStyle(a).overflowX)) { scroller = true; break; } a = a.parentElement; }
       if (scroller) continue;
@@ -129,6 +129,111 @@ test("pricing: punched tags, three across on desktop, a swipeable stack on phone
   expect(await page.getByTestId("pricing-layer").evaluateAll((els) => els.map((e) => getComputedStyle(e).transform))).toEqual(layers);
 });
 
+const DECK = ["Maternity and postpartum", "General surgery", "Orthopedic and joint", "Stroke and neuro rehab", "Cardiac", "Pediatrics", "Mental health", "Oncology", "Respiratory", "Diabetes and metabolic", "Elder care and falls", "Any other hospital stay"];
+
+async function deckAtRest(page: Page) {
+  const deck = page.getByTestId("specialty-deck");
+  await deck.evaluate((e) => e.scrollIntoView({ block: "center", behavior: "instant" }));
+  await page.mouse.move(2, 2);
+  await page.waitForTimeout(400);
+  return deck;
+}
+
+async function swipe(page: Page, dx: number) {
+  await expect(page.getByTestId("deck-front")).toHaveCount(1);
+  const b = (await page.getByTestId("deck-front").boundingBox())!;
+  const x = b.x + b.width / 2, y = b.y + b.height * 0.4;
+  await page.mouse.move(x, y);
+  await page.mouse.down();
+  for (let i = 1; i <= 10; i++) await page.mouse.move(x + (dx * i) / 10, y + i);
+  await page.mouse.up();
+}
+
+test("specialty deck: auto-deals left, swipes both ways, keyboard, stays inside the screen", async ({ page }) => {
+  await page.goto("/");
+  const deck = await deckAtRest(page);
+  await expect(deck).toHaveAttribute("data-mode", "animated");
+  await expect(deck).toHaveAttribute("data-front", DECK[0]);
+  const front = page.getByTestId("deck-front");
+  await expect(front.getByRole("link", { name: "Open the app" })).toHaveAttribute("href", SIGNIN);
+  await expect(front).toContainText("Template: 6 weeks");
+
+  // three cards stacked, alternating dark and light, all inside the viewport, no clipped content
+  const W = page.viewportSize()!.width;
+  const cards = await page.locator("[data-testid='deck-stage'] [data-pos]").evaluateAll((els) =>
+    els.map((e) => { const r = e.getBoundingClientRect(); const a = e.querySelector("article")!; return { pos: Number((e as HTMLElement).dataset.pos), l: r.left, r: r.right, bg: getComputedStyle(a).backgroundColor, fits: a.scrollHeight <= a.clientHeight + 1 }; }));
+  const visible = cards.filter((c) => c.pos < 3).sort((a, b) => a.pos - b.pos);
+  expect(visible.length).toBe(3);
+  for (const c of visible) { expect(c.l).toBeGreaterThanOrEqual(0); expect(c.r).toBeLessThanOrEqual(W); expect(c.fits).toBe(true); }
+  expect(visible[0].bg).not.toBe(visible[1].bg);
+  expect(visible[0].bg).toBe(visible[2].bg);
+
+  // auto-advance when idle
+  await expect(deck).toHaveAttribute("data-front", DECK[1], { timeout: 4000 });
+
+  // hold still while touched: swipe left then right, each moves the next card forward
+  const before = await deck.getAttribute("data-front");
+  const i0 = DECK.indexOf(before!);
+  await swipe(page, -160);
+  await expect(deck).toHaveAttribute("data-front", DECK[(i0 + 1) % 12]);
+  await swipe(page, 160);
+  await expect(deck).toHaveAttribute("data-front", DECK[(i0 + 2) % 12]);
+  // a short drag snaps back
+  await page.waitForTimeout(400);
+  await swipe(page, -30);
+  await page.waitForTimeout(400);
+  await expect(deck).toHaveAttribute("data-front", DECK[(i0 + 2) % 12]);
+
+  // keyboard: right deals the next card, left brings the last one back
+  await page.mouse.move(2, 2);
+  await deck.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(deck).toHaveAttribute("data-front", DECK[(i0 + 3) % 12]);
+  await page.waitForTimeout(300);
+  await page.keyboard.press("ArrowLeft");
+  await expect(deck).toHaveAttribute("data-front", DECK[(i0 + 2) % 12]);
+  await expect(page.getByTestId("deck-live")).toContainText(DECK[(i0 + 2) % 12]);
+  // focus pauses the deal
+  await page.waitForTimeout(3200);
+  await expect(deck).toHaveAttribute("data-front", DECK[(i0 + 2) % 12]);
+
+  await expect(page.getByTestId(W >= 1024 ? "see-how" : "see-how-mobile")).toHaveAttribute("href", "#how");
+  await expectNoOverflow(page);
+});
+
+test("specialty deck: touch swipe deals a card, vertical touch still scrolls the page", async ({ page }) => {
+  test.skip(!page.viewportSize() || page.viewportSize()!.width >= 1024, "touch on phones");
+  await page.goto("/");
+  const deck = await deckAtRest(page);
+  const cdp = await page.context().newCDPSession(page);
+  const touch = async (pts: [number, number][]) => {
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: pts[0][0], y: pts[0][1] }] });
+    for (const [x, y] of pts.slice(1)) { await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x, y }] }); await page.waitForTimeout(16); }
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  };
+  await expect(page.getByTestId("deck-front")).toHaveCount(1);
+  const b = (await page.getByTestId("deck-front").boundingBox())!;
+  const x = b.x + b.width / 2, y = b.y + b.height * 0.4;
+  const start = await deck.getAttribute("data-front");
+  await touch(Array.from({ length: 12 }, (_, i) => [x - i * 16, y + i] as [number, number]));
+  await expect(deck).not.toHaveAttribute("data-front", start!, { timeout: 900 });
+  await page.waitForTimeout(500);
+  const y0 = await page.evaluate(() => window.scrollY);
+  await touch(Array.from({ length: 12 }, (_, i) => [x, y - i * 20] as [number, number]));
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(y0 + 40);
+});
+
+test("specialty deck: loops through all twelve and back to the first", async ({ page }) => {
+  await page.goto("/");
+  const deck = await deckAtRest(page);
+  await deck.focus();
+  for (let i = 1; i <= 12; i++) {
+    await page.keyboard.press("ArrowRight");
+    await expect(deck).toHaveAttribute("data-front", DECK[i % 12]);
+    await page.waitForTimeout(260);
+  }
+});
+
 test("loop: plays plan, follow, track, adjust and back to follow; tap holds a step", async ({ page }) => {
   await page.goto("/#loop");
   const loop = page.getByTestId("loop-diagram");
@@ -159,6 +264,10 @@ test.describe("reduced motion", () => {
     for (const k of ["plan", "follow", "track", "adjust"]) await expect(page.getByTestId(`loop-step-${k}`)).toBeVisible();
     await expect(loop).toContainText("Your care team updated your plan");
     await expect(page.getByTestId("homecoming-rotator")).toContainText("a stroke");
+    const deck = page.getByTestId("specialty-deck");
+    await expect(deck).toHaveAttribute("data-mode", "static");
+    await expect(deck.getByTestId("deck-card")).toHaveCount(12);
+    for (const t of DECK) await expect(deck.getByRole("heading", { name: t })).toBeVisible();
     if (page.viewportSize()!.width < 1024) {
       await page.getByTestId("pricing-track").scrollIntoViewIfNeeded();
       await page.waitForTimeout(6000);

@@ -20,3 +20,12 @@ describe("landing content", () => {
     for (const f of tsx) expect(readFileSync(f, "utf8")).not.toMatch(/Lagos/);
   });
 });
+
+import { DECK_TITLES } from "@/components/landing/SpecialtyDeck";
+describe("specialty deck", () => {
+  it("deals twelve specialties in the agreed order", () => {
+    expect(DECK_TITLES).toHaveLength(12);
+    expect(DECK_TITLES[0]).toBe("Maternity and postpartum");
+    expect(DECK_TITLES[11]).toBe("Any other hospital stay");
+  });
+});

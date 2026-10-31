@@ -3,17 +3,16 @@ import { Suspense } from "react";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { RoadHome } from "@/components/art/RoadHome";
-import { Glyph } from "@/components/art/Glyph";
 import { HeroChips } from "@/components/landing/HeroChips";
 import { HomecomingMarquee, HomecomingRotator } from "@/components/landing/Homecomings";
 import { DashboardPreview, TodayPreview } from "@/components/landing/Previews";
 import { LiveTaste } from "@/components/landing/LiveTaste";
 import { LoopDiagram } from "@/components/landing/LoopDiagram";
 import { PricingPlans } from "@/components/landing/PricingPlans";
+import { SpecialtyDeck } from "@/components/landing/SpecialtyDeck";
 import { Reveal } from "@/components/ui/Reveal";
 import { Icon } from "@/components/ui/Icon";
 import { LinkButton } from "@/components/ui/primitives";
-import { SPECIALTIES } from "@/lib/care/specialties";
 import { SIGNIN_URL, app } from "@/lib/urls";
 
 export const revalidate = 3600;
@@ -77,31 +76,32 @@ export default async function Landing() {
       </section>
 
       {/* who it's for */}
-      <section id="specialties" className="relative bg-night py-24 md:py-28">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <Reveal className="max-w-3xl">
+      <section id="specialties" className="relative overflow-x-clip bg-night py-24 md:py-28">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-5 md:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
+          <Reveal className="min-w-0">
             <p className="label-mono text-ember">Who it is for</p>
             <h2 className="mt-3 text-4xl font-bold tracking-tight text-balance md:text-5xl">
               Every kind of coming home, <span className="font-serif-i font-normal text-ember">not just one.</span>
             </h2>
             <p className="mt-4 text-lg text-haze text-pretty">
-              A new parent after birth. A teenager after surgery. A grandfather after a fall. Someone leaving mental health care. loci gives each specialty its own shape, and the people around them a place to help.
+              Twelve specialty templates give each recovery its own shape. They hold structure only: the clinician writes every medicine, task and warning sign, and the people around the patient get a place to help.
             </p>
+            <p className="mt-4 hidden text-sm text-haze/80 lg:block">Swipe a card, or use the arrow keys.</p>
+            <a href="#how" className="mt-6 hidden items-center gap-1.5 text-[15px] font-semibold text-[#f4f1ff] underline decoration-white/30 underline-offset-4 transition hover:decoration-ember lg:inline-flex" data-testid="see-how">
+              See how it works <Icon name="arrowR" className="h-4 w-4" />
+            </a>
           </Reveal>
+          <div className="min-w-0">
+            <SpecialtyDeck href={SIGNIN_URL} />
+            <p className="mt-2 text-center lg:hidden">
+              <a href="#how" className="inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#f4f1ff] underline decoration-white/30 underline-offset-4" data-testid="see-how-mobile">
+                See how it works <Icon name="arrowR" className="h-4 w-4" />
+              </a>
+            </p>
+          </div>
+        </div>
+        <div className="mx-auto max-w-7xl px-5 md:px-8">
           <HomecomingMarquee />
-          <ul className="mt-12 grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {SPECIALTIES.map((s, k) => (
-              <Reveal as="li" key={s.id} delay={(k % 4) * 0.06}>
-                <div className="group relative h-full overflow-hidden rounded-3xl border border-white/8 bg-dusk-950/80 p-5 transition duration-300 hover:-translate-y-1 hover:border-white/20">
-                  <span className="absolute -top-10 -right-10 h-28 w-28 rounded-full opacity-20 blur-2xl transition group-hover:opacity-40" style={{ background: s.hue }} aria-hidden="true" />
-                  <Glyph name={s.glyph} className="h-8 w-8" color={s.hue} />
-                  <p className="mt-3 font-semibold leading-tight">{s.label}</p>
-                  <p className="mt-2 text-[15px] leading-relaxed text-haze text-pretty md:text-[14px] md:leading-snug">{s.blurb}</p>
-                  <p className="label-mono mt-3 text-[10px] text-haze/70">{s.ledBy === "caregiver" ? "Often family-led" : "Patient-led"}</p>
-                </div>
-              </Reveal>
-            ))}
-          </ul>
         </div>
       </section>
 
