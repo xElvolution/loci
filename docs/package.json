@@ -1,0 +1,39 @@
+{
+  "name": "loci-docs",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "loci documentation site. Standalone Next.js app that renders the Markdown in content/",
+  "scripts": {
+    "dev": "next dev -p 3771",
+    "build": "next build",
+    "start": "next start -p 3770",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "engines": { "node": ">=20.9" },
+  "dependencies": {
+    "marked": "^16.0.0",
+    "motion": "^14.8.0",
+    "next": "^16.4.3",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@tailwindcss/turbopack": "^4.3.3",
+    "@types/node": "^20.19.43",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.12"
+  },
+  "allowScripts": {
+    "unrs-resolver@1.12.2": true
+  }
+}
