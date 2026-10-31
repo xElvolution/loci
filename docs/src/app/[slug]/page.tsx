@@ -15,8 +15,8 @@ export default async function Doc({ params }: PageProps<"/[slug]">) {
   if (!doc) notFound();
   return (
     <Chrome current={doc.meta.slug}>
-      <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_200px]">
-        <article>
+      <div className="grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_200px]">
+        <article className="min-w-0">
           <p className="label-mono text-ember">{doc.meta.group}</p>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-balance md:text-5xl" data-testid="doc-title">{doc.meta.title}</h1>
           {/* Our own committed Markdown, rendered at build time. */}

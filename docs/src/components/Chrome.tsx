@@ -18,7 +18,7 @@ export function Chrome({ current, children }: { current?: string; children: Reac
           </div>
         </div>
       </header>
-      <div className="mx-auto grid max-w-7xl gap-8 px-5 py-8 md:grid-cols-[240px_minmax(0,1fr)] md:px-8 md:py-12">
+      <div className="mx-auto grid grid-cols-1 max-w-7xl gap-8 px-5 py-8 md:grid-cols-[240px_minmax(0,1fr)] md:px-8 md:py-12">
         <details className="md:hidden rounded-2xl border border-white/10 bg-white/5 p-4" data-testid="mobile-nav">
           <summary className="cursor-pointer text-sm font-semibold text-white">All pages</summary>
           <div className="mt-4"><Sidebar current={current} /></div>

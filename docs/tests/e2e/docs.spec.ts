@@ -13,6 +13,20 @@ test("docs: index, every page, sidebar navigation, no overflow or errors", async
     await expect(page.getByTestId("doc-title")).toBeVisible();
     const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(over, s).toBeLessThanOrEqual(1);
+    // Nothing may stick out past the viewport, even where an ancestor clips it (scroll containers excepted).
+    const out = await page.evaluate(() => {
+      const W = window.innerWidth;
+      return Array.from(document.querySelectorAll("main *"))
+        .filter((el) => {
+          let a = el.parentElement;
+          while (a) { if (/(auto|scroll)/.test(getComputedStyle(a).overflowX)) return false; a = a.parentElement; }
+          const r = el.getBoundingClientRect();
+          return r.width > 0 && (r.right > W + 1 || r.left < -1);
+        })
+        .slice(0, 3)
+        .map((el) => el.tagName);
+    });
+    expect(out, s).toEqual([]);
   }
   await page.goto("/api");
   if (isMobile) await page.getByTestId("mobile-nav").locator("summary").click();

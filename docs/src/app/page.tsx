@@ -16,7 +16,7 @@ export default function Home() {
         {NAV.map((g) => (
           <section key={g.group}>
             <h2 className="label-mono text-haze">{g.group}</h2>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {g.items.map(([slug]) => (
                 <Link key={slug} href={`/${slug}`} data-testid={`card-${slug}`} className="glass block rounded-2xl p-4 transition hover:border-ember/50">
                   <p className="font-semibold text-white">{docMeta(slug)?.label}</p>
