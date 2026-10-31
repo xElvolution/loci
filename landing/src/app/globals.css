@@ -148,10 +148,11 @@ body::after {
 .anim-ripple { animation: ripple 1.8s cubic-bezier(0.2, 0.6, 0.3, 1) infinite; }
 .anim-twinkle { animation: twinkle 3.5s ease-in-out infinite; }
 .anim-drift { animation: drift 40s linear infinite; }
+.anim-drift-reverse { animation: drift 46s linear infinite reverse; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .anim-flicker, .anim-blink, .anim-shimmer line, .anim-ripple, .anim-twinkle, .anim-drift {
+  .anim-flicker, .anim-blink, .anim-shimmer line, .anim-ripple, .anim-twinkle, .anim-drift, .anim-drift-reverse {
     animation: none !important;
   }
 }
@@ -313,3 +314,7 @@ input[type="range"].scale::-moz-range-thumb {
 @media print {
   body::after { display: none; }
 }
+
+@keyframes ring-march { to { stroke-dashoffset: -120; } }
+.anim-ring-march { animation: ring-march 6s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .anim-ring-march { animation: none; } }

@@ -6,7 +6,9 @@ All notable changes to loci are documented here. The format follows [Keep a Chan
 
 ### Added
 - Terms of use, security, cookie policy and contact pages on the landing site, and a full site footer with product, specialties, resources, company and legal links.
-- Pricing plans become a swipeable carousel on phones and tablets, with dots, arrows and keyboard support.
+- Landing hero and specialties show every kind of coming home: a rotating homecoming phrase in the hero and drifting rows of recoveries in the specialties section.
+- The plan, follow, track, adjust loop is animated: a ring that lights each step in turn with a small scene of what happens there, tap to hold a step, and a static, complete layout for reduced motion.
+- Pricing plans are punched price tags: three side by side on desktop, a swipeable stack on phones and tablets with dots, arrows, keyboard support and an auto-advance that stops on interaction.
 - Download page at locicare.xyz/download with the web app, the Android test build with its SHA-256, and iOS status, linked from the main navigation and the footer.
 - Repository health files: contributing guide, code of conduct, security policy, and issue and pull request templates.
 

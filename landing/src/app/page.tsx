@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { RoadHome } from "@/components/art/RoadHome";
 import { Glyph } from "@/components/art/Glyph";
 import { HeroChips } from "@/components/landing/HeroChips";
+import { HomecomingMarquee, HomecomingRotator } from "@/components/landing/Homecomings";
 import { DashboardPreview, TodayPreview } from "@/components/landing/Previews";
 import { LiveTaste } from "@/components/landing/LiveTaste";
 import { LoopDiagram } from "@/components/landing/LoopDiagram";
@@ -40,8 +41,9 @@ export default async function Landing() {
             <h1 className="mt-4 text-[44px] leading-[0.98] font-bold tracking-tight text-balance sm:text-6xl lg:text-[76px]">
               The way home, <span className="font-serif-i font-normal text-ember">together.</span>
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-haze text-pretty md:text-xl" data-testid="one-liner">
-              Care teams write the recovery plan and track it. Patients and families follow it at home, step by step. loci is the loop between them, from the first night home to thriving.
+            <HomecomingRotator />
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-haze text-pretty md:text-xl" data-testid="one-liner">
+              Whatever brought someone to hospital, the care team writes the recovery plan and tracks it, and the patient and family follow it at home, step by step. loci is the loop between them, from the first night home to thriving.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <LinkButton href={SIGNIN_URL} className="h-12 px-6 text-base" data-testid="hero-open-app">
@@ -86,6 +88,7 @@ export default async function Landing() {
               A new parent after birth. A teenager after surgery. A grandfather after a fall. Someone leaving mental health care. loci gives each specialty its own shape, and the people around them a place to help.
             </p>
           </Reveal>
+          <HomecomingMarquee />
           <ul className="mt-12 grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {SPECIALTIES.map((s, k) => (
               <Reveal as="li" key={s.id} delay={(k % 4) * 0.06}>
