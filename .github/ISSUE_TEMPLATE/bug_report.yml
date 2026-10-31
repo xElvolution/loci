@@ -1,0 +1,43 @@
+name: Bug report
+description: Something in loci does not work as expected.
+title: "bug: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this. Please do not include any real patient or health information. For security problems, use the private route in SECURITY.md instead of an issue.
+  - type: dropdown
+    id: part
+    attributes:
+      label: Part
+      options: [webapp (clinician workspace), webapp (patient app), webapp (API), landing, docs, mobile (Android), not sure]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected to see instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open https://app.locicare.xyz and press "Try the demo"
+        2. Choose "See it as a clinician"
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Browser or device
+      placeholder: Chrome 131 on macOS, Pixel 8 on Android 15, ...
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots or logs
+      description: Remove any personal information first.

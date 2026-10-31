@@ -1,0 +1,32 @@
+name: Feature request
+description: Suggest an improvement for clinicians, patients or families.
+title: "feat: "
+labels: [enhancement]
+body:
+  - type: dropdown
+    id: who
+    attributes:
+      label: Who is it for
+      options: [Clinicians and care teams, Patients and family caregivers, Both sides, Developers and integrators]
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What is hard or missing today? A real situation helps most.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safe use
+      options:
+        - label: This does not ask loci to diagnose, score risk or give medical advice (loci only repeats the care team's own words).
+          required: true
