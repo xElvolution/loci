@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-const SIGNIN = "http://app.example.test/app/signin";
+const SIGNIN = process.env.E2E_SIGNIN_URL || "http://app.example.test/app/signin";
 
 async function sweep(page: Page) {
   const errors: string[] = [];
@@ -155,6 +155,7 @@ test("specialty deck: auto-deals left, swipes both ways, keyboard, stays inside 
   await expect(deck).toHaveAttribute("data-mode", "animated");
   await expect(deck).toHaveAttribute("data-front", DECK[0]);
   const front = page.getByTestId("deck-front");
+  await expect(front).toHaveCount(1);
   await expect(front.getByRole("link", { name: "Open the app" })).toHaveAttribute("href", SIGNIN);
   await expect(front).toContainText("Template: 6 weeks");
 
