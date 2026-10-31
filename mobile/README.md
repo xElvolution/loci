@@ -72,11 +72,13 @@ cd android && ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a,x86
 # APK: android/app/build/outputs/apk/release/app-release.apk
 ```
 
+Set `EXPO_PUBLIC_API_ORIGIN` before `assembleRelease` to build against another webapp; the published build uses `https://app.locicare.xyz`. The current release is [mobile-v1.0.0](https://github.com/xElvolution/loci/releases/tag/mobile-v1.0.0), also linked from [locicare.xyz/download](https://locicare.xyz/download), SHA-256 `810bf3e2abcaae82f3ae2dabd33c49099716cc31c7d660b96153c88d2f911c08`.
+
 This needs JDK 17 and the Android SDK (platform 36, build-tools 36, NDK 27.1). The release APK is signed with the template's debug keystore, so you can sideload it to test. It is not a Play Store build. Publishing to the Play Store needs a real upload key and an `eas build` or Gradle signing config.
 
 ## iOS
 
-The project structure, bundle id (`io.loci.care`) and config are ready, and `npx expo prebuild --platform ios` generates the Xcode project on a Mac. **TestFlight: not available.** No iOS build has been made or signed, and no App Store Connect app exists yet.
+The project structure, bundle id (`io.loci.care`) and config are ready, and `npx expo prebuild --platform ios` generates the Xcode project on a Mac. **TestFlight: coming soon.** No iOS build has been made or signed, and no App Store Connect app exists yet.
 
 ## Layout
 

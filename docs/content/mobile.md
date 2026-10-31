@@ -2,8 +2,9 @@
 
 Mobile app: `mobile/` is the Expo patient app (today's step-by-step plan, daily check-in with when-to-call, journey, comfort, ask the care team, care circle, settings). It uses only `/api/v1` with bearer tokens in secure storage.
 
-- **Android APK:** [Releases, mobile-v1.0.0](https://github.com/xElvolution/loci/releases/tag/mobile-v1.0.0) (sideload test build, not yet verified on a device).
-- **iOS:** TestFlight not available.
+- **Android APK:** download from [locicare.xyz/download](https://locicare.xyz/download) or [release mobile-v1.0.0](https://github.com/xElvolution/loci/releases/tag/mobile-v1.0.0). It is a test build signed with a debug key, so Android asks you to allow "Install unknown apps". SHA-256: `810bf3e2abcaae82f3ae2dabd33c49099716cc31c7d660b96153c88d2f911c08`.
+- **API origin:** the app talks to `https://app.locicare.xyz/api/v1`. Builds can point elsewhere with `EXPO_PUBLIC_API_ORIGIN`.
+- **iOS:** TestFlight soon. No iOS build is available yet.
 - Export, account deletion and circle invites open the web app until the API has endpoints for them. The API now has `GET /me/export`, `DELETE /me` and the research consent endpoints; circle invites still need the web app.
 
 ## How it talks to loci

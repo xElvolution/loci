@@ -5,6 +5,7 @@ All notable changes to loci are documented here. The format follows [Keep a Chan
 ## [Unreleased]
 
 ### Added
+- Download page at locicare.xyz/download with the web app, the Android test build with its SHA-256, and iOS status, linked from the main navigation and the footer.
 - Repository health files: contributing guide, code of conduct, security policy, and issue and pull request templates.
 
 ### Changed
