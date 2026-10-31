@@ -19,7 +19,7 @@ Going home after a hospital stay is where recovery plans fall apart: a discharge
 
 **Plan, follow, track, adjust.**
 
-> **Try it:** open [app.locicare.xyz](https://app.locicare.xyz), press **Try the demo** and choose **See it as a clinician** or **See it as a patient**. Both open the same demo patient and a banner switches sides, so what you do on one side shows up on the other. No sign-up needed.
+> **Try it:** open [demo.locicare.xyz](https://demo.locicare.xyz) and choose **See it as a clinician** or **See it as a patient**. Both open the same demo patient and a banner switches sides, so what you do on one side shows up on the other. No sign-up needed.
 
 ## Two sides, one plan
 
@@ -36,11 +36,11 @@ loci is a monorepo of standalone parts. Each has its own `package.json`, lockfil
 | Part | What it is | Live | Stack |
 | --- | --- | --- | --- |
 | [`webapp/`](webapp) | Clinician workspace, patient app, HTTP API (`/api`, `/api/v1`) and Postgres. The only part that holds secrets. | [app.locicare.xyz](https://app.locicare.xyz) | Next.js 16, React 19, PostgreSQL, zod, Argon2 |
-| [`landing/`](landing) | Public marketing site for both audiences and the download page. Static, no database. | [locicare.xyz](https://locicare.xyz) | Next.js 16, Tailwind CSS 4, Motion |
+| [`landing/`](landing) | Public marketing site, download page, terms, security, cookie and contact pages. Static, no database. | [locicare.xyz](https://locicare.xyz) | Next.js 16, Tailwind CSS 4, Motion |
 | [`docs/`](docs) | Documentation site rendering [`docs/content`](docs/content). | [docs.locicare.xyz](https://docs.locicare.xyz) | Next.js 16 |
 | [`mobile/`](mobile) | Patient and family app on the bearer-token API. | [Android test build](https://github.com/xElvolution/loci/releases/tag/mobile-v1.0.0) | Expo SDK 58, React Native |
 
-Cross-links are configured per deployment with environment variables (`APP_URL`, `LANDING_URL`, `DOCS_URL`, `SITE_ORIGIN`, and `EXPO_PUBLIC_API_ORIGIN` for mobile), documented in each part's `.env.example`. The landing page's live Qloo sample comes from the webapp's public `GET /api/public/live-taste`, so only the webapp ever holds the Qloo key.
+Cross-links are configured per deployment with environment variables (`APP_URL`, `SIGNIN_URL`, `LANDING_URL`, `DOCS_URL`, `SITE_ORIGIN`, and `EXPO_PUBLIC_API_ORIGIN` for mobile), documented in each part's `.env.example`. The landing page's live Qloo sample comes from the webapp's public `GET /api/public/live-taste`, so only the webapp ever holds the Qloo key.
 
 ## Quickstart
 
@@ -105,11 +105,7 @@ Every kind of coming home, not just one: maternity and postpartum, general surge
 8. **A welcome-home card.** A shareable, re-skinnable card (dusk, paper, sunrise) with arrival soundtrack, first meal, first night in. It never shows health information.
 9. **Privacy first.** Minimal data, consent switches with a consent log, JSON export, one-step delete, demo accounts that erase themselves.
 
-## Not a medical device
-
-loci is a care organizer and companion, **not a medical device**. It does not diagnose, treat, predict or give medical advice, and every clinical word a patient sees comes from their own care team. Escalation is rule-based on the team's thresholds and the warning signs the patient ticks. In an emergency, call the local emergency number. See [safe use](docs/content/safe-use.md) and [not a medical device](docs/content/non-medical-device.md).
-
-### How Qloo is used safely
+## How Qloo is used safely
 
 - Qloo receives only favorite entity IDs, a city point and generic tags (like vegetarian, delivery, quiet). Never a name, email, specialty, plan, check-in or warning sign.
 - Taste data never infers a health condition and never feeds flags, plans or any eligibility decision. The clinician workspace never shows the patient's taste or comfort data.
@@ -125,7 +121,7 @@ Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4, Motion, PostgreSQL,
 Everything lives in [docs/content](docs/content) and is published at https://docs.locicare.xyz:
 
 - [architecture](docs/content/architecture.md), [API](docs/content/api.md), [mobile app](docs/content/mobile.md), [repository layout](docs/content/monorepo.md), [deploy](docs/content/deploy.md)
-- [safe use](docs/content/safe-use.md), [not a medical device](docs/content/non-medical-device.md), [privacy](docs/content/privacy.md), [research layer](docs/content/research.md), [how loci uses Qloo](docs/content/qloo.md)
+- [safe use](docs/content/safe-use.md), [privacy](docs/content/privacy.md), [research layer](docs/content/research.md), [how loci uses Qloo](docs/content/qloo.md)
 - Hackathon write-ups: [Problem](docs/content/Loci-Qloo-Problem.md), [Solution](docs/content/Loci-Qloo-Solution.md), [Architecture](docs/content/Loci-Qloo-Architecture.md), [UI](docs/content/Loci-Qloo-UI.md)
 
 Running and testing each part is described in its own README: [webapp](webapp/README.md), [landing](landing/README.md), [docs](docs/README.md), [mobile](mobile/README.md). The mobile API contract is [mobile-api.md](mobile-api.md).

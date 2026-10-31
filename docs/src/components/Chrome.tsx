@@ -29,7 +29,7 @@ export function Chrome({ current, children }: { current?: string; children: Reac
         <main className="min-w-0">{children}</main>
       </div>
       <footer className="border-t border-white/8 py-8 text-center text-xs text-haze/80">
-        loci is not a medical device and does not give medical advice. Taste picks by Qloo are aggregate affinity.
+        Taste picks by Qloo are aggregate affinity.
       </footer>
     </div>
   );

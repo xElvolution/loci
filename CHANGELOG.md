@@ -5,10 +5,14 @@ All notable changes to loci are documented here. The format follows [Keep a Chan
 ## [Unreleased]
 
 ### Added
+- Terms of use, security, cookie policy and contact pages on the landing site, and a full site footer with product, specialties, resources, company and legal links.
+- Pricing plans become a swipeable carousel on phones and tablets, with dots, arrows and keyboard support.
 - Download page at locicare.xyz/download with the web app, the Android test build with its SHA-256, and iOS status, linked from the main navigation and the footer.
 - Repository health files: contributing guide, code of conduct, security policy, and issue and pull request templates.
 
 ### Changed
+- Every call to action on the landing site opens the web app's sign-in page (`SIGNIN_URL`, default `https://app.locicare.xyz/app/signin`).
+- Mobile layout of the landing site: roomier spacing and type, and grid columns that can no longer push content past the screen edge.
 - Public URLs move to locicare.xyz (site), app.locicare.xyz (app) and docs.locicare.xyz (docs). Every cross-link is configurable per deployment through environment variables.
 - The mobile API origin is set at build time with `EXPO_PUBLIC_API_ORIGIN` (default `https://app.locicare.xyz`).
 
