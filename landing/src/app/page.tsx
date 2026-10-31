@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { Wordmark } from "@/components/brand/Wordmark";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { SiteHeader } from "@/components/site/SiteHeader";
 import { RoadHome } from "@/components/art/RoadHome";
 import { Glyph } from "@/components/art/Glyph";
 import { HeroChips } from "@/components/landing/HeroChips";
@@ -11,7 +12,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Icon } from "@/components/ui/Icon";
 import { LinkButton } from "@/components/ui/primitives";
 import { SPECIALTIES } from "@/lib/care/specialties";
-import { app, docs } from "@/lib/urls";
+import { app } from "@/lib/urls";
 
 export const revalidate = 3600;
 
@@ -27,28 +28,7 @@ const NEVER = ["A diagnosis or a risk score", "Medical advice or doses", "Your p
 export default async function Landing() {
   return (
     <div className="overflow-x-clip">
-      {/* nav */}
-      <header className="absolute inset-x-0 top-0 z-30">
-        <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-5 md:h-20 md:px-8" aria-label="Main">
-          <Link href="/" className="flex items-center gap-2 text-[#f4f1ff]" aria-label="loci home">
-            <Wordmark className="h-7 w-auto md:h-8" />
-          </Link>
-          <div className="hidden items-center gap-7 text-sm text-haze lg:flex">
-            <a href="#loop" className="transition hover:text-white">How it works</a>
-            <a href="#specialties" className="transition hover:text-white">Who it is for</a>
-            <a href="#taste" className="transition hover:text-white">Taste</a>
-            <a href="#safety" className="transition hover:text-white">Safety</a>
-            <a href="#clinics" className="transition hover:text-white">For clinicians</a>
-            <a href="#pricing" className="transition hover:text-white">Pricing</a>
-          </div>
-          <div className="flex items-center gap-2">
-            <>
-                <Link href={app("/app/signin")} className="hidden rounded-full px-3 py-2 text-sm text-haze transition hover:text-white sm:inline">Sign in</Link>
-                <LinkButton href={app("/app/demo")} className="h-10 px-4 text-sm">Try the demo</LinkButton>
-              </>
-          </div>
-        </nav>
-      </header>
+      <SiteHeader />
 
       {/* hero */}
       <section className="dusk-sky relative pt-24 pb-14 md:pt-32 md:pb-20">
@@ -342,23 +322,7 @@ export default async function Landing() {
         </div>
       </section>
 
-      <footer className="border-t border-white/8 bg-night py-10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 text-sm text-haze md:flex-row md:items-center md:justify-between md:px-8">
-          <div className="flex items-center gap-3">
-            <Wordmark className="h-6 w-auto text-[#f4f1ff]" animated={false} />
-            <span>The way home after hospital.</span>
-          </div>
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
-            <Link href={app("/privacy")} className="hover:text-white">Privacy</Link>
-            <Link href={app("/safety")} className="hover:text-white">Safety</Link>
-            <Link href={app("/app/demo")} className="hover:text-white">Demo</Link>
-            <Link href={app("/app/signin")} className="hover:text-white">Patient sign in</Link>
-            <Link href={app("/clinic/signin")} className="hover:text-white">Clinician sign in</Link>
-            <Link href={docs()} className="hover:text-white">Docs</Link>
-          </div>
-          <p className="max-w-sm text-xs text-haze/80">loci is not a medical device and does not give medical advice. Taste picks by Qloo are aggregate affinity.</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
