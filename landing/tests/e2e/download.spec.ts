@@ -26,6 +26,9 @@ test("download: platforms, honest statuses, checksum, nav and footer links, no o
   await expect(page.getByTestId("status-ios")).toHaveText("TestFlight soon");
   await expect(page.locator('[data-testid^="platform-"]')).toHaveCount(3);
   await expect(page.getByTestId("web-open")).toHaveAttribute("href", "http://app.example.test/app/signin");
+  await expect(page.getByTestId("hero-open-app")).toHaveAttribute("href", "http://app.example.test/app/signin");
+  await expect(page.getByTestId("final-open-app")).toHaveAttribute("href", "http://app.example.test/app/signin");
+  expect(await page.locator("body").innerText()).not.toMatch(/try the demo|medical device/i);
   await expect(page.getByTestId("android-download")).toHaveAttribute("href", ANDROID_RELEASE.url);
   await expect(page.getByTestId("android-note")).toContainText("debug key");
   await expect(page.getByTestId("android-note")).toContainText("Install unknown apps");

@@ -37,7 +37,7 @@ describe("download page", () => {
 
   it("is linked from the main navigation and the footer", () => {
     expect(src("components/site/SiteHeader.tsx")).toContain('href="/download"');
-    expect(src("components/site/SiteFooter.tsx")).toContain('href="/download"');
+    expect(src("components/site/SiteFooter.tsx")).toContain('href: "/download"');
     expect(src("app/page.tsx")).toContain("<SiteHeader />");
     expect(src("app/page.tsx")).toContain("<SiteFooter />");
   });
